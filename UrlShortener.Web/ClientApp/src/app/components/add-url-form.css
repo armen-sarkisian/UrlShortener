@@ -1,0 +1,38 @@
+.add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.add-form label {
+  font-weight: 500;
+}
+
+.add-form .row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.add-form input {
+  flex: 1 1 320px;
+  padding: 9px 11px;
+  border: 1px solid #dfe3e8;
+  border-radius: 6px;
+  font: inherit;
+}
+
+.add-form button {
+  padding: 9px 18px;
+  border: 0;
+  border-radius: 6px;
+  background: #2563eb;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.add-form button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] — URL Shortener</title>
+    <link rel="icon" href="~/favicon.ico"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/app/styles.css" asp-append-version="true"/>
+</head>
+<body>
+<header class="site-header">
+    <nav>
+        <a class="brand" asp-controller="Home" asp-action="Index">URL Shortener</a>
+        <a asp-controller="Home" asp-action="Index">Ссылки</a>
+        <a asp-controller="About" asp-action="Index">О сервисе</a>
+    </nav>
+    <div class="session">
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <span class="user">
+                @User.Identity.Name
+                @if (User.IsInRole(Roles.Admin))
+                {
+                    <span class="badge">admin</span>
+                }
+            </span>
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="link-button">Выйти</button>
+            </form>
+        }
+        else
+        {
+            <a asp-controller="Account" asp-action="Login">Войти</a>
+        }
+    </div>
+</header>
+
+<main>
+    @if (TempData["StatusMessage"] is string statusMessage)
+    {
+        <div class="alert alert-success">@statusMessage</div>
+    }
+    @RenderBody()
+</main>
+
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

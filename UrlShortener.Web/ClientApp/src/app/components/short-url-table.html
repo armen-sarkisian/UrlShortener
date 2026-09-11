@@ -1,0 +1,37 @@
+@if (urls().length === 0) {
+  <p class="empty">Пока ни одной ссылки.</p>
+} @else {
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Короткая ссылка</th>
+          <th>Исходный адрес</th>
+          <th>Автор</th>
+          <th>Создана</th>
+          <th class="numeric">Переходов</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (url of urls(); track url.id) {
+          <tr>
+            <td><a [href]="url.shortUrl">/s/{{ url.code }}</a></td>
+            <td class="original"><span [title]="url.originalUrl">{{ url.originalUrl }}</span></td>
+            <td>{{ url.createdBy }}</td>
+            <td>{{ url.createdAtUtc | date: 'dd.MM.yyyy HH:mm' }}</td>
+            <td class="numeric">{{ url.clickCount }}</td>
+            <td class="actions">
+              @if (detailsAvailable()) {
+                <a [href]="'/ShortUrls/Details/' + url.id">Подробнее</a>
+              }
+              @if (url.canDelete) {
+                <button type="button" class="danger" (click)="deleteRequested.emit(url)">Удалить</button>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

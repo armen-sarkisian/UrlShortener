@@ -1,0 +1,27 @@
+@model AboutViewModel
+@{
+    ViewData["Title"] = "О сервисе";
+}
+
+<h1>Как работает сокращение ссылок</h1>
+
+@if (Model.CanEdit)
+{
+    <form method="post" class="card form">
+        <div asp-validation-summary="All" class="validation-summary"></div>
+
+        <label asp-for="Content"></label>
+        <textarea asp-for="Content" rows="18"></textarea>
+        <span asp-validation-for="Content" class="field-error"></span>
+
+        <button type="submit" class="primary">Сохранить</button>
+    </form>
+}
+else
+{
+    <article class="card about-text">@Model.Content</article>
+}
+
+<p class="hint">
+    Обновлено @Model.UpdatedAtUtc.ToString("dd.MM.yyyy HH:mm") UTC@(Model.UpdatedBy is null ? "" : $", автор: {Model.UpdatedBy}")
+</p>

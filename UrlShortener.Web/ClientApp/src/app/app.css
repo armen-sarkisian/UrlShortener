@@ -1,0 +1,29 @@
+h1 {
+  font-size: 24px;
+  margin: 0 0 20px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #dfe3e8;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.alert {
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.alert-error {
+  background: #fdeceb;
+  color: #b42318;
+}
+
+.hint {
+  color: #6b7280;
+  font-size: 13px;
+  margin: 0;
+}

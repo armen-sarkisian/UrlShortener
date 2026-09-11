@@ -98,3 +98,8 @@ desktop.ini
 
 ## Тестовое задание (не публикуем)
 task.pdf
+
+## Frontend
+node_modules/
+.angular/
+UrlShortener.Web/wwwroot/app/

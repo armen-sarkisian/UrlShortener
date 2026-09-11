@@ -1,0 +1,15 @@
+<form class="add-form" [formGroup]="form" (ngSubmit)="submit()">
+  <label for="url">Новый адрес</label>
+  <div class="row">
+    <input
+      id="url"
+      type="text"
+      formControlName="url"
+      placeholder="https://example.com/очень/длинный/адрес"
+      autocomplete="off"
+    />
+    <button type="submit" [disabled]="form.invalid || pending()">
+      {{ pending() ? 'Сокращаем…' : 'Сократить' }}
+    </button>
+  </div>
+</form>

@@ -1,0 +1,60 @@
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th,
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #eceff3;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: #6b7280;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+td.numeric,
+th.numeric {
+  text-align: right;
+}
+
+td.original span {
+  display: inline-block;
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+td.actions {
+  white-space: nowrap;
+}
+
+td.actions a {
+  margin-right: 12px;
+}
+
+button.danger {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: #b42318;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.empty {
+  color: #6b7280;
+  margin: 0;
+}

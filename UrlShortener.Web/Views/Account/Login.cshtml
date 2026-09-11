@@ -1,0 +1,30 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Вход";
+}
+
+<h1>Вход</h1>
+
+<form method="post" class="card form">
+    <div asp-validation-summary="All" class="validation-summary"></div>
+
+    <label asp-for="Login"></label>
+    <input asp-for="Login" autocomplete="username" autofocus/>
+    <span asp-validation-for="Login" class="field-error"></span>
+
+    <label asp-for="Password"></label>
+    <input asp-for="Password" autocomplete="current-password"/>
+    <span asp-validation-for="Password" class="field-error"></span>
+
+    <label class="checkbox">
+        <input asp-for="RememberMe"/>
+        <span>Запомнить меня</span>
+    </label>
+
+    <input type="hidden" asp-for="ReturnUrl"/>
+    <button type="submit" class="primary">Войти</button>
+</form>
+
+<p class="hint">
+    Тестовые учётные записи: <code>admin / Admin123$</code> и <code>user / User123$</code>.
+</p>

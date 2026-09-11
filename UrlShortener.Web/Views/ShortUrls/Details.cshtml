@@ -1,0 +1,31 @@
+@model ShortUrlDto
+@{
+    ViewData["Title"] = "Информация о ссылке";
+}
+
+<h1>Информация о ссылке</h1>
+
+<dl class="card details">
+    <dt>Короткая ссылка</dt>
+    <dd><a href="@Model.ShortUrl">@Model.ShortUrl</a></dd>
+
+    <dt>Исходный адрес</dt>
+    <dd class="break"><a href="@Model.OriginalUrl" rel="noreferrer noopener">@Model.OriginalUrl</a></dd>
+
+    <dt>Код</dt>
+    <dd><code>@Model.Code</code></dd>
+
+    <dt>Создал</dt>
+    <dd>@Model.CreatedBy</dd>
+
+    <dt>Создана</dt>
+    <dd>@Model.CreatedAtUtc.ToString("dd.MM.yyyy HH:mm") UTC</dd>
+
+    <dt>Переходов</dt>
+    <dd>@Model.ClickCount</dd>
+
+    <dt>Последний переход</dt>
+    <dd>@(Model.LastAccessedAtUtc?.ToString("dd.MM.yyyy HH:mm") + " UTC" ?? "—")</dd>
+</dl>
+
+<p><a asp-controller="Home" asp-action="Index">← К списку ссылок</a></p>

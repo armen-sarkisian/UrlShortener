@@ -16,7 +16,7 @@ public sealed class ShortUrlConfiguration : IEntityTypeConfiguration<ShortUrl>
         builder.Property(x => x.CreatedAtUtc).HasConversion<UtcDateTimeConverter>();
         builder.Property(x => x.LastAccessedAtUtc).HasConversion<UtcDateTimeConverter>();
 
-        // Требование "URLs should be unique" держится индексом, а не только проверкой в коде.
+        // The "URLs should be unique" requirement is held by an index, not only by a check in code.
         builder.HasIndex(x => x.OriginalUrl).IsUnique();
         builder.HasIndex(x => x.Code).IsUnique();
 

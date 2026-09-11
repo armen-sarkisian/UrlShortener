@@ -1,6 +1,6 @@
 namespace UrlShortener.Domain.Entities;
 
-/// <summary>Содержимое страницы About. В таблице всегда одна строка с <see cref="SingletonId"/>.</summary>
+/// <summary>Content of the About page. The table always holds a single row with <see cref="SingletonId"/>.</summary>
 public class AboutPage
 {
     public const int SingletonId = 1;

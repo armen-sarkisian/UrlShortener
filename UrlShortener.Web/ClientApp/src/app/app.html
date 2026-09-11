@@ -1,11 +1,11 @@
-<h1>Короткие ссылки</h1>
+<h1>Short links</h1>
 
 @if (session.isAuthenticated()) {
   <section class="card">
     <app-add-url-form [pending]="pending()" (submitted)="create($event)" />
   </section>
 } @else {
-  <p class="hint">Чтобы добавлять и удалять ссылки, <a href="/Account/Login">войдите</a>.</p>
+  <p class="hint">To add and delete links, <a href="/Account/Login">sign in</a>.</p>
 }
 
 @if (error(); as message) {
@@ -14,7 +14,7 @@
 
 <section class="card">
   @if (loading()) {
-    <p class="hint">Загружаем…</p>
+    <p class="hint">Loading…</p>
   } @else {
     <app-short-url-table
       [urls]="urls()"

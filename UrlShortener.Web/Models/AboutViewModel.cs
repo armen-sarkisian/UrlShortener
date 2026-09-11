@@ -4,8 +4,8 @@ namespace UrlShortener.Web.Models;
 
 public sealed class AboutViewModel
 {
-    [Required(ErrorMessage = "Описание не может быть пустым")]
-    [Display(Name = "Описание алгоритма")]
+    [Required(ErrorMessage = "The description cannot be empty")]
+    [Display(Name = "Algorithm description")]
     public string Content { get; set; } = string.Empty;
 
     public DateTime UpdatedAtUtc { get; set; }

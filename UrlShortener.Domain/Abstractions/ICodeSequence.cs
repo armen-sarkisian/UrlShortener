@@ -1,9 +1,9 @@
 namespace UrlShortener.Domain.Abstractions;
 
 /// <summary>
-/// Источник монотонно возрастающих чисел для кодов. Вынесен за интерфейс,
-/// потому что реализация упирается в конкретную СУБД (последовательность SQL Server),
-/// а логика сокращения от этого зависеть не должна.
+/// Source of monotonically increasing numbers for short codes. It sits behind an interface
+/// because the implementation is tied to a specific database (a SQL Server sequence),
+/// and the shortening logic must not depend on that.
 /// </summary>
 public interface ICodeSequence
 {

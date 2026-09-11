@@ -1,98 +1,98 @@
 # URL Shortener
 
-Тестовое задание: сервис сокращения ссылок на ASP.NET Core MVC + Angular + EF Core (Code First).
+Test assignment: a link shortening service built with ASP.NET Core MVC, Angular and EF Core (Code First).
 
-## Стек
+## Stack
 
-| Часть | Технология |
+| Part | Technology |
 |---|---|
-| Бэкенд | ASP.NET Core 9 MVC, Razor Views |
-| Фронтенд таблицы | Angular 22 (standalone-компоненты, signals, zoneless) |
-| Данные | EF Core 9, SQL Server, подход Code First + миграции |
-| Аутентификация | ASP.NET Core Identity, cookie, роли Admin / User |
-| Тесты | xUnit, NSubstitute, EF Core SQLite in-memory |
+| Backend | ASP.NET Core 9 MVC, Razor Views |
+| Table frontend | Angular 22 (standalone components, signals, zoneless) |
+| Data | EF Core 9, SQL Server, Code First with migrations |
+| Authentication | ASP.NET Core Identity, cookies, Admin / User roles |
+| Tests | xUnit, NSubstitute, EF Core in-memory SQLite |
 
-## Структура
+## Layout
 
 ```
 UrlShortener.sln
-├── UrlShortener.Domain/          сущности, доменные сервисы, интерфейсы — без зависимостей от инфраструктуры
-├── UrlShortener.Infrastructure/  EF Core: DbContext, конфигурации, миграции, репозиторий, сидинг
-├── UrlShortener.Web/             контроллеры, Razor-представления, API
-│   └── ClientApp/                Angular-приложение таблицы (собирается в wwwroot/app)
-└── UrlShortener.Tests/           юнит-тесты
+├── UrlShortener.Domain/          entities, domain services, interfaces — no infrastructure dependencies
+├── UrlShortener.Infrastructure/  EF Core: DbContext, configurations, migrations, repository, seeding
+├── UrlShortener.Web/             controllers, Razor views, API
+│   └── ClientApp/                Angular application of the table (built into wwwroot/app)
+└── UrlShortener.Tests/           unit tests
 ```
 
-## Запуск
+## Running
 
-Нужны .NET SDK 9, Node.js 24.15+ и SQL Server (подойдёт LocalDB).
+You need the .NET SDK 9, Node.js 24.15+ and SQL Server (LocalDB will do).
 
 ```bash
 dotnet run --project UrlShortener.Web
 ```
 
-При первом запуске зависимости Angular ставятся автоматически, фронтенд собирается в `wwwroot/app`,
-миграции накатываются, база наполняется стартовыми данными. Пересобирать фронтенд отдельно не нужно;
-чтобы пропустить его сборку, передайте `-p:SkipClientAppBuild=true`.
+On the first run the Angular dependencies are installed automatically, the frontend is built into
+`wwwroot/app`, migrations are applied and the database is filled with the starting data. There is no
+separate frontend build step; pass `-p:SkipClientAppBuild=true` to skip it.
 
-Строка подключения — `ConnectionStrings:Default` в [appsettings.json](UrlShortener.Web/appsettings.json).
+The connection string is `ConnectionStrings:Default` in [appsettings.json](UrlShortener.Web/appsettings.json).
 
-### Учётные записи
+### Accounts
 
-| Логин | Пароль | Роль |
+| Login | Password | Role |
 |---|---|---|
 | `admin` | `Admin123$` | Admin |
 | `user` | `User123$` | User |
 
-### Тесты
+### Tests
 
 ```bash
 dotnet test
 ```
 
-## Возможности
+## Features
 
-| Страница | Доступ |
+| Page | Access |
 |---|---|
-| Вход (`/Account/Login`) | все |
-| Таблица ссылок (`/`) — Angular | смотрят все; добавление и удаление — авторизованным |
-| Информация о ссылке (`/ShortUrls/Details/{id}`) | только авторизованным |
-| О сервисе (`/About`) | читают все, редактирует только Admin |
-| Переход (`/s/{code}`) | все |
+| Sign in (`/Account/Login`) | everyone |
+| Links table (`/`) — Angular | everyone can view; adding and deleting require authentication |
+| Link details (`/ShortUrls/Details/{id}`) | authenticated users only |
+| About (`/About`) | everyone can read, only Admin can edit |
+| Redirect (`/s/{code}`) | everyone |
 
-Права на таблицу: аноним только просматривает; обычный пользователь добавляет ссылки и удаляет
-свои; администратор удаляет любые. Изменения отображаются без перезагрузки страницы — Angular
-правит список по ответу API.
+Table permissions: anonymous users can only browse; a regular user adds links and deletes their own;
+an administrator deletes any. Changes appear without reloading the page — Angular patches the list
+from the API response.
 
-## Алгоритм сокращения
+## Shortening algorithm
 
-Каждой ссылке присваивается число из последовательности SQL Server (`ShortUrlCodeSequence`),
-которое кодируется по основанию 62 алфавитом `0-9 A-Z a-z`. Например, `1000000` → `4C92`.
+Every link is assigned a number from a SQL Server sequence (`ShortUrlCodeSequence`), which is then
+encoded in base 62 over the alphabet `0-9 A-Z a-z`. For example, `1000000` becomes `4C92`.
 
-Почему так:
+Why this way:
 
-- последовательность выдаёт значения атомарно, поэтому коды уникальны по построению — не нужен
-  ни цикл повторных попыток, ни проверка занятости кода в базе;
-- кодирование по основанию 62 — биекция, значит уникальность чисел переносится на коды, а длина
-  растёт логарифмически: `62^4` — это уже более 14 миллионов адресов;
-- старт последовательности с 1 000 000 даёт коды сразу из четырёх символов и не раскрывает,
-  сколько ссылок в системе.
+- the sequence hands out values atomically, so codes are unique by construction — neither a retry
+  loop nor a check for a taken code is needed;
+- base 62 encoding is a bijection, so uniqueness of the numbers carries over to the codes, while
+  length grows logarithmically: `62^4` already covers more than 14 million addresses;
+- starting the sequence at 1,000,000 yields four-character codes right away and does not reveal how
+  many links the system holds.
 
-Адрес перед сохранением нормализуется: схема и хост приводятся к нижнему регистру, отбрасываются
-порт по умолчанию и завершающий слэш у корня, при отсутствии схемы подставляется `https`.
-Уникальность обеспечивает уникальный индекс по нормализованному адресу, поэтому повторное
-сокращение отсекается даже при одновременных запросах — нарушение индекса переводится
-в доменное исключение и возвращается клиенту как `409 Conflict`.
+The address is normalized before it is stored: scheme and host are lowercased, the default port and
+the trailing slash at the root are dropped, and a missing scheme defaults to `https`. Uniqueness is
+enforced by a unique index over the normalized address, so a repeated shortening is rejected even
+under concurrent requests — the index violation is translated into a domain exception and returned
+to the client as `409 Conflict`.
 
-## Решения, которые стоит пояснить
+## Decisions worth explaining
 
-- **Префикс `/s/` у коротких ссылок.** Код на корне (`/{code}`) конфликтовал бы с `/About`
-  и `/Account/Login`.
-- **Angular внутри Web-проекта.** Приложение собирается в `wwwroot/app` и монтируется в Razor-view
-  таблицы, поэтому у фронтенда и бэкенда один origin: cookie-авторизация работает без CORS и JWT,
-  а всё решение запускается одной командой.
-- **Antiforgery-токен через `/api/session`.** Штатный XSRF-механизм Angular читает токен из куки,
-  но ASP.NET Core кладёт его в HttpOnly-куку. Токен приходит вместе с данными о сессии
-  и уходит обратно заголовком `X-CSRF-TOKEN`.
-- **`IClock` и `ICodeSequence` за интерфейсами.** Время и обращение к последовательности — то, что
-  невозможно проверить в тестах напрямую; за интерфейсом они подменяются.
+- **The `/s/` prefix for short links.** A code at the root (`/{code}`) would collide with `/About`
+  and `/Account/Login`.
+- **Angular inside the Web project.** The application is built into `wwwroot/app` and mounted into
+  the Razor view of the table, so the frontend and the backend share one origin: cookie
+  authentication works without CORS or JWT, and the whole solution starts with a single command.
+- **The antiforgery token via `/api/session`.** Angular's built-in XSRF mechanism reads the token
+  from a cookie, but ASP.NET Core puts it into an HttpOnly one. The token arrives together with the
+  session data and travels back in the `X-CSRF-TOKEN` header.
+- **`IClock` and `ICodeSequence` behind interfaces.** Time and the sequence call are exactly what
+  cannot be asserted directly in tests; behind an interface they are substitutable.

@@ -3,9 +3,9 @@ using System.Text;
 namespace UrlShortener.Domain.Services;
 
 /// <summary>
-/// Кодирование целого числа в строку алфавитом из 62 символов.
-/// Коды получаются короткими и, что важнее, уникальными без единой проверки в БД:
-/// уникальность обеспечивает источник чисел, а кодирование её сохраняет (биекция).
+/// Encodes an integer into a string over a 62-symbol alphabet.
+/// Codes stay short and, more importantly, unique without a single database check:
+/// uniqueness comes from the source of numbers, and the encoding preserves it (it is a bijection).
 /// </summary>
 public static class Base62Encoder
 {
@@ -21,7 +21,7 @@ public static class Base62Encoder
             return Alphabet[0].ToString();
         }
 
-        // Максимум для long — 11 символов, поэтому буфера с запасом хватает всегда.
+        // A long never exceeds 11 symbols, so this capacity is always enough.
         var buffer = new StringBuilder(11);
 
         while (value > 0)
@@ -30,7 +30,7 @@ public static class Base62Encoder
             value /= Base;
         }
 
-        // Разряды накапливались от младшего к старшему — возвращаем в привычном порядке.
+        // Digits were produced from the least significant one — return them in the usual order.
         return string.Create(buffer.Length, buffer, static (span, source) =>
         {
             for (var i = 0; i < span.Length; i++)
@@ -52,7 +52,7 @@ public static class Base62Encoder
 
             if (digit < 0)
             {
-                throw new FormatException($"Символ '{symbol}' не входит в алфавит Base62.");
+                throw new FormatException($"Symbol '{symbol}' is not part of the Base62 alphabet.");
             }
 
             value = checked(value * Base + digit);

@@ -21,7 +21,7 @@ public class UrlNormalizerTests
     [Fact]
     public void TryNormalize_KeepsPathCaseIntact()
     {
-        // Хост регистронезависим, а путь — нет: /Docs и /docs могут быть разными страницами.
+        // The host is case-insensitive, the path is not: /Docs and /docs may be different pages.
         Assert.True(UrlNormalizer.TryNormalize("https://EXAMPLE.com/Docs", out var normalized, out _));
         Assert.Equal("https://example.com/Docs", normalized);
     }

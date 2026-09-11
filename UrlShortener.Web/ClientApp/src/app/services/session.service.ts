@@ -4,8 +4,8 @@ import { Observable, tap } from 'rxjs';
 import { Session } from '../models/short-url';
 
 /**
- * Кто сейчас в системе. Сервер отдаёт эти данные вместе с antiforgery-токеном,
- * поэтому одного запроса при старте хватает и для прав, и для защищённых операций.
+ * Who is signed in right now. The server returns this together with the antiforgery token,
+ * so a single request on start-up covers both permissions and protected operations.
  */
 @Injectable({ providedIn: 'root' })
 export class SessionService {

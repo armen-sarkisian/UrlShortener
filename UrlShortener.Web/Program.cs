@@ -7,7 +7,7 @@ using UrlShortener.Infrastructure.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("Default")
-    ?? throw new InvalidOperationException("Не задана строка подключения 'ConnectionStrings:Default'.");
+    ?? throw new InvalidOperationException("Connection string 'ConnectionStrings:Default' is not configured.");
 
 builder.Services.AddInfrastructure(connectionString);
 
@@ -25,8 +25,8 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/Account/Login";
     options.AccessDeniedPath = "/Account/AccessDenied";
 
-    // Для запросов Angular редирект на страницу логина бесполезен: SPA нужен код ответа,
-    // иначе вместо ошибки она получит HTML страницы входа со статусом 200.
+    // A redirect to the login page is useless for Angular requests: the SPA needs a status code,
+    // otherwise it receives the login page HTML with status 200 instead of an error.
     options.Events.OnRedirectToLogin = context => WriteStatusForApi(context, StatusCodes.Status401Unauthorized);
     options.Events.OnRedirectToAccessDenied = context => WriteStatusForApi(context, StatusCodes.Status403Forbidden);
 });
@@ -68,5 +68,5 @@ static Task WriteStatusForApi(
     return Task.CompletedTask;
 }
 
-/// <summary>Точка входа объявлена явно, чтобы тесты могли ссылаться на сборку приложения.</summary>
+/// <summary>The entry point is declared explicitly so tests can reference the application assembly.</summary>
 public partial class Program;

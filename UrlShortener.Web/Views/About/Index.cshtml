@@ -1,9 +1,9 @@
 @model AboutViewModel
 @{
-    ViewData["Title"] = "О сервисе";
+    ViewData["Title"] = "About";
 }
 
-<h1>Как работает сокращение ссылок</h1>
+<h1>How link shortening works</h1>
 
 @if (Model.CanEdit)
 {
@@ -14,7 +14,7 @@
         <textarea asp-for="Content" rows="18"></textarea>
         <span asp-validation-for="Content" class="field-error"></span>
 
-        <button type="submit" class="primary">Сохранить</button>
+        <button type="submit" class="primary">Save</button>
     </form>
 }
 else
@@ -23,5 +23,5 @@ else
 }
 
 <p class="hint">
-    Обновлено @Model.UpdatedAtUtc.ToString("dd.MM.yyyy HH:mm") UTC@(Model.UpdatedBy is null ? "" : $", автор: {Model.UpdatedBy}")
+    Updated @Model.UpdatedAtUtc.ToString("dd.MM.yyyy HH:mm") UTC@(Model.UpdatedBy is null ? "" : $", by {Model.UpdatedBy}")
 </p>

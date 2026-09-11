@@ -10,8 +10,8 @@ using UrlShortener.Web.Models;
 namespace UrlShortener.Web.Controllers;
 
 /// <summary>
-/// Обычная Razor-страница с submit-действием: читать может кто угодно,
-/// править — только администратор.
+/// An ordinary Razor page with a submit action: anyone may read it,
+/// only an administrator may edit it.
 /// </summary>
 public class AboutController(
     AppDbContext context,
@@ -52,7 +52,7 @@ public class AboutController(
 
         await context.SaveChangesAsync(cancellationToken);
 
-        TempData["StatusMessage"] = "Описание сохранено.";
+        TempData["StatusMessage"] = "The description has been saved.";
 
         return RedirectToAction(nameof(Index));
     }

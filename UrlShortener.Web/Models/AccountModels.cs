@@ -4,16 +4,16 @@ namespace UrlShortener.Web.Models;
 
 public sealed class LoginViewModel
 {
-    [Required(ErrorMessage = "Введите логин")]
-    [Display(Name = "Логин")]
+    [Required(ErrorMessage = "Enter your login")]
+    [Display(Name = "Login")]
     public string Login { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Введите пароль")]
+    [Required(ErrorMessage = "Enter your password")]
     [DataType(DataType.Password)]
-    [Display(Name = "Пароль")]
+    [Display(Name = "Password")]
     public string Password { get; set; } = string.Empty;
 
-    [Display(Name = "Запомнить меня")]
+    [Display(Name = "Remember me")]
     public bool RememberMe { get; set; }
 
     public string? ReturnUrl { get; set; }

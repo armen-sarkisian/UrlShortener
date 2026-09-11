@@ -1,8 +1,8 @@
 namespace UrlShortener.Domain.Services;
 
 /// <summary>
-/// Приведение адреса к каноничному виду. Без этого шага уникальный индекс бесполезен:
-/// "HTTP://Site.com:80/" и "http://site.com" — один и тот же ресурс, но разные строки.
+/// Brings an address to its canonical form. Without this step the unique index is useless:
+/// "HTTP://Site.com:80/" and "http://site.com" are the same resource but different strings.
 /// </summary>
 public static class UrlNormalizer
 {
@@ -14,7 +14,7 @@ public static class UrlNormalizer
 
         if (string.IsNullOrWhiteSpace(input))
         {
-            error = "Адрес не может быть пустым.";
+            error = "The address cannot be empty.";
             return false;
         }
 
@@ -22,11 +22,11 @@ public static class UrlNormalizer
 
         if (candidate.Length > MaxLength)
         {
-            error = $"Адрес длиннее {MaxLength} символов.";
+            error = $"The address is longer than {MaxLength} characters.";
             return false;
         }
 
-        // Пользователи обычно пишут "example.com" без схемы — достраиваем до абсолютного адреса.
+        // People usually type "example.com" without a scheme — complete it into an absolute address.
         if (!candidate.Contains("://", StringComparison.Ordinal))
         {
             candidate = "https://" + candidate;
@@ -34,19 +34,19 @@ public static class UrlNormalizer
 
         if (!Uri.TryCreate(candidate, UriKind.Absolute, out var uri))
         {
-            error = "Не удалось разобрать адрес.";
+            error = "The address could not be parsed.";
             return false;
         }
 
         if (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps)
         {
-            error = "Поддерживаются только адреса http и https.";
+            error = "Only http and https addresses are supported.";
             return false;
         }
 
         if (string.IsNullOrEmpty(uri.Host) || !uri.Host.Contains('.'))
         {
-            error = "Адрес должен содержать доменное имя.";
+            error = "The address must contain a domain name.";
             return false;
         }
 
@@ -54,13 +54,13 @@ public static class UrlNormalizer
         {
             Scheme = uri.Scheme.ToLowerInvariant(),
             Host = uri.Host.ToLowerInvariant(),
-            // -1 заставляет UriBuilder опустить порт, если он совпадает с портом схемы по умолчанию.
+            // -1 makes UriBuilder omit the port when it matches the scheme default.
             Port = uri.IsDefaultPort ? -1 : uri.Port,
         };
 
         var result = builder.Uri.ToString();
 
-        // Завершающий слэш значим только внутри пути; у корня он лишний.
+        // A trailing slash only matters inside the path; at the root it is noise.
         if (builder.Uri.AbsolutePath == "/" && string.IsNullOrEmpty(uri.Query) && string.IsNullOrEmpty(uri.Fragment))
         {
             result = result.TrimEnd('/');

@@ -8,8 +8,8 @@ using UrlShortener.Infrastructure.Repositories;
 namespace UrlShortener.Tests.Infrastructure;
 
 /// <summary>
-/// Репозиторий проверяется на настоящей базе (SQLite в памяти), а не на подменённом
-/// провайдере: иначе уникальные индексы и порядок сортировки остались бы непроверенными.
+/// The repository is exercised against a real database (in-memory SQLite) rather than a faked
+/// provider: otherwise unique indexes and ordering would go unverified.
 /// </summary>
 public sealed class ShortUrlRepositoryTests : IAsyncLifetime
 {
@@ -70,7 +70,7 @@ public sealed class ShortUrlRepositoryTests : IAsyncLifetime
         });
         await Assert.ThrowsAsync<DuplicateUrlException>(() => _repository.SaveChangesAsync());
 
-        // Отклонённая запись не должна остаться в трекере и утащить за собой следующую вставку.
+        // The rejected entity must not stay in the change tracker and drag down the next insert.
         await AddAsync("https://another.example.com", "4C94");
 
         Assert.Equal(2, (await _repository.GetAllAsync()).Count);

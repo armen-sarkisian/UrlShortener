@@ -4,7 +4,7 @@ namespace UrlShortener.Web.Controllers;
 
 public class HomeController : Controller
 {
-    /// <summary>Страница таблицы. Данные и вся работа с ними живут в Angular-приложении.</summary>
+    /// <summary>The table page. The data and all work with it live in the Angular application.</summary>
     public IActionResult Index() => View();
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -7,7 +7,7 @@ using UrlShortener.Web.Models;
 
 namespace UrlShortener.Web.Controllers;
 
-/// <summary>Страница Short URL Info. Анонимам закрыта — этого требует задание.</summary>
+/// <summary>The Short URL Info page. Closed to anonymous users, as the task requires.</summary>
 [Authorize]
 public class ShortUrlsController(
     IShortUrlService shortUrlService,

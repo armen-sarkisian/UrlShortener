@@ -43,8 +43,8 @@ export class App implements OnInit {
 
     this.api.create(url).subscribe({
       next: (created) => {
-        // Список правится на месте: перезагрузка страницы требованиям противоречит,
-        // а повторный GET всего списка ради одной строки избыточен.
+        // The list is patched in place: reloading the page would contradict the requirement,
+        // and re-fetching the whole list for a single row would be wasteful.
         this.urls.update((current) => [created, ...current]);
         this.addForm()?.reset();
         this.pending.set(false);
@@ -57,7 +57,7 @@ export class App implements OnInit {
   }
 
   protected remove(url: ShortUrl): void {
-    if (!confirm(`Удалить ссылку /s/${url.code}?`)) {
+    if (!confirm(`Delete the link /s/${url.code}?`)) {
       return;
     }
 
@@ -72,11 +72,11 @@ export class App implements OnInit {
   private describe(error: unknown): string {
     if (error instanceof HttpErrorResponse) {
       if (error.status === 401) {
-        return 'Сессия истекла. Войдите заново, чтобы продолжить.';
+        return 'Your session has expired. Sign in again to continue.';
       }
 
       if (error.status === 403) {
-        return 'Недостаточно прав: удалять можно только свои ссылки.';
+        return 'Not allowed: you may only delete your own links.';
       }
 
       const detail = (error.error as { detail?: string } | null)?.detail;
@@ -86,6 +86,6 @@ export class App implements OnInit {
       }
     }
 
-    return 'Операция не удалась. Попробуйте ещё раз.';
+    return 'The operation failed. Please try again.';
   }
 }

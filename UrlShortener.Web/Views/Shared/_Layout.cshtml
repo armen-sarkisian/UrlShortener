@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -12,8 +12,8 @@
 <header class="site-header">
     <nav>
         <a class="brand" asp-controller="Home" asp-action="Index">URL Shortener</a>
-        <a asp-controller="Home" asp-action="Index">Ссылки</a>
-        <a asp-controller="About" asp-action="Index">О сервисе</a>
+        <a asp-controller="Home" asp-action="Index">Links</a>
+        <a asp-controller="About" asp-action="Index">About</a>
     </nav>
     <div class="session">
         @if (User.Identity?.IsAuthenticated == true)
@@ -27,12 +27,12 @@
             </span>
             <form asp-controller="Account" asp-action="Logout" method="post">
                 @Html.AntiForgeryToken()
-                <button type="submit" class="link-button">Выйти</button>
+                <button type="submit" class="link-button">Sign out</button>
             </form>
         }
         else
         {
-            <a asp-controller="Account" asp-action="Login">Войти</a>
+            <a asp-controller="Account" asp-action="Login">Sign in</a>
         }
     </div>
 </header>

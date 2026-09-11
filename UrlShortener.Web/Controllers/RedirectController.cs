@@ -4,8 +4,8 @@ using UrlShortener.Domain.Services;
 namespace UrlShortener.Web.Controllers;
 
 /// <summary>
-/// Переход по короткой ссылке. Префикс /s/ выбран намеренно: код на корне
-/// (/{code}) конфликтовал бы с маршрутами /About и /Account/Login.
+/// Following a short link. The /s/ prefix is deliberate: a code at the root (/{code})
+/// would collide with the /About and /Account/Login routes.
 /// </summary>
 [Route("s")]
 public class RedirectController(IShortUrlService shortUrlService) : Controller
@@ -20,8 +20,8 @@ public class RedirectController(IShortUrlService shortUrlService) : Controller
             return NotFound();
         }
 
-        // Временный редирект, а не постоянный: иначе браузер закеширует переход
-        // и счётчик кликов перестанет расти.
+        // A temporary redirect rather than a permanent one: otherwise the browser caches the jump
+        // and the click counter stops growing.
         return Redirect(originalUrl);
     }
 }

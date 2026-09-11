@@ -36,15 +36,15 @@ public class AccountController(
 
         if (result.IsLockedOut)
         {
-            ModelState.AddModelError(string.Empty, "Учётная запись временно заблокирована, попробуйте позже.");
+            ModelState.AddModelError(string.Empty, "The account is temporarily locked out, try again later.");
             return View(model);
         }
 
         if (!result.Succeeded)
         {
-            // Намеренно не уточняем, что именно неверно: иначе форма превращается
-            // в инструмент перебора существующих логинов.
-            ModelState.AddModelError(string.Empty, "Неверный логин или пароль.");
+            // Deliberately vague: a more precise message would turn this form
+            // into a tool for discovering which logins exist.
+            ModelState.AddModelError(string.Empty, "Invalid login or password.");
             return View(model);
         }
 

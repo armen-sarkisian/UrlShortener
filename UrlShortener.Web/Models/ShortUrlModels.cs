@@ -2,7 +2,7 @@ using UrlShortener.Domain.Entities;
 
 namespace UrlShortener.Web.Models;
 
-/// <summary>Представление ссылки для Angular и страницы деталей.</summary>
+/// <summary>Representation of a link for Angular and for the details page.</summary>
 public sealed record ShortUrlDto(
     int Id,
     string OriginalUrl,
@@ -31,5 +31,5 @@ public sealed class CreateShortUrlRequest
     public string? Url { get; set; }
 }
 
-/// <summary>Контекст текущего пользователя — по нему Angular решает, что показывать.</summary>
+/// <summary>Current user context — Angular decides what to show based on it.</summary>
 public sealed record SessionDto(bool IsAuthenticated, string? UserName, bool IsAdmin, string AntiforgeryToken);

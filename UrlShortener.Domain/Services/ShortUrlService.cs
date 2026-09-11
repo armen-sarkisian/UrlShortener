@@ -41,7 +41,7 @@ public sealed class ShortUrlService(
 
         if (await repository.ExistsAsync(normalized, cancellationToken))
         {
-            return CreateResult.Duplicate($"Адрес уже сокращён: {normalized}");
+            return CreateResult.Duplicate($"This address has already been shortened: {normalized}");
         }
 
         var shortUrl = new ShortUrl
@@ -59,11 +59,11 @@ public sealed class ShortUrlService(
         }
         catch (DuplicateUrlException)
         {
-            return CreateResult.Duplicate($"Адрес уже сокращён: {normalized}");
+            return CreateResult.Duplicate($"This address has already been shortened: {normalized}");
         }
 
-        // Перечитываем запись: в только что созданной сущности навигация на автора пуста,
-        // а клиенту нужен тот же набор полей, что и при обычном чтении списка.
+        // Re-read the record: on a freshly created entity the author navigation is empty,
+        // and the client expects the same set of fields as a regular list read.
         return CreateResult.Created(await repository.GetByIdAsync(shortUrl.Id, cancellationToken) ?? shortUrl);
     }
 

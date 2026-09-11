@@ -6,9 +6,9 @@ using UrlShortener.Web.Models;
 namespace UrlShortener.Web.Controllers.Api;
 
 /// <summary>
-/// Кто сейчас в системе. Angular спрашивает это при старте, чтобы решить,
-/// показывать ли форму добавления и кнопки удаления; здесь же выдаётся
-/// antiforgery-токен для изменяющих запросов.
+/// Who is signed in right now. Angular asks for this on start-up to decide whether to show
+/// the add form and the delete buttons; the antiforgery token for modifying requests
+/// is handed out here as well.
 /// </summary>
 [ApiController]
 [Route("api/session")]

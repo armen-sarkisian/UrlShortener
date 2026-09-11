@@ -26,8 +26,8 @@ public class Base62EncoderTests
     [Fact]
     public void Encode_ProducesDistinctCodesForDistinctValues()
     {
-        // Уникальность кодов держится именно на биективности кодирования,
-        // поэтому проверяем её явно на непрерывном диапазоне.
+        // Code uniqueness rests precisely on the encoding being a bijection,
+        // so it is checked explicitly over a continuous range.
         var codes = Enumerable.Range(1_000_000, 5_000).Select(x => Base62Encoder.Encode(x)).ToList();
 
         Assert.Equal(codes.Count, codes.Distinct().Count());

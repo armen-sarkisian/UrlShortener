@@ -83,7 +83,7 @@ secrets.json
 .env
 .env.local
 
-## Databases (SQLite и т.п.)
+## Databases (SQLite and friends)
 *.db
 *.db-shm
 *.db-wal
@@ -96,7 +96,7 @@ Thumbs.db
 ehthumbs.db
 desktop.ini
 
-## Тестовое задание (не публикуем)
+## Task description (not published)
 task.pdf
 
 ## Frontend

@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace UrlShortener.Infrastructure.Data.Converters;
 
 /// <summary>
-/// SQL Server возвращает datetime2 без сведений о часовом поясе, и прочитанное значение
-/// приходит с DateTimeKind.Unspecified. Из-за этого одна и та же дата сериализуется
-/// то с суффиксом Z (когда объект ещё в памяти), то без него — клиент видит разные форматы.
-/// Конвертер фиксирует: в этих колонках всегда UTC.
+/// SQL Server returns datetime2 without time zone information, so a value read back carries
+/// DateTimeKind.Unspecified. As a result the same date is serialized sometimes with a "Z" suffix
+/// (while the object is still in memory) and sometimes without it, and the client sees two formats.
+/// This converter states it once: these columns always hold UTC.
 /// </summary>
 public sealed class UtcDateTimeConverter() : ValueConverter<DateTime, DateTime>(
     value => value,

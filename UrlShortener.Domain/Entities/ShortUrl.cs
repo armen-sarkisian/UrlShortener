@@ -1,8 +1,8 @@
 namespace UrlShortener.Domain.Entities;
 
 /// <summary>
-/// Сокращённая ссылка. <see cref="OriginalUrl"/> хранится в нормализованном виде,
-/// чтобы уникальный индекс действительно ловил дубликаты.
+/// A shortened link. <see cref="OriginalUrl"/> is stored in normalized form so that
+/// the unique index actually catches duplicates.
 /// </summary>
 public class ShortUrl
 {
@@ -10,7 +10,7 @@ public class ShortUrl
 
     public string OriginalUrl { get; set; } = string.Empty;
 
-    /// <summary>Base62-код, по которому работает переход: <c>/s/{Code}</c>.</summary>
+    /// <summary>Base62 code the redirect runs on: <c>/s/{Code}</c>.</summary>
     public string Code { get; set; } = string.Empty;
 
     public string CreatedById { get; set; } = string.Empty;
@@ -23,6 +23,6 @@ public class ShortUrl
 
     public DateTime? LastAccessedAtUtc { get; set; }
 
-    /// <summary>Удалять запись может её автор либо администратор.</summary>
+    /// <summary>A record may be deleted by its author or by an administrator.</summary>
     public bool CanBeDeletedBy(string userId, bool isAdmin) => isAdmin || CreatedById == userId;
 }

@@ -6,8 +6,8 @@ using UrlShortener.Domain.Entities;
 namespace UrlShortener.Infrastructure.Data;
 
 /// <summary>
-/// Накатывает миграции и создаёт стартовые данные: роли, пару учётных записей
-/// и текст страницы About. Нужен, чтобы приложение поднималось на чистой машине одной командой.
+/// Applies migrations and creates the starting data: roles, a couple of accounts and the text of
+/// the About page. It exists so the application comes up on a clean machine with a single command.
 /// </summary>
 public static class DatabaseSeeder
 {
@@ -66,7 +66,7 @@ public static class DatabaseSeeder
         if (!result.Succeeded)
         {
             throw new InvalidOperationException(
-                $"Не удалось создать пользователя '{login}': {string.Join("; ", result.Errors.Select(x => x.Description))}");
+                $"Failed to create user '{login}': {string.Join("; ", result.Errors.Select(x => x.Description))}");
         }
 
         await userManager.AddToRoleAsync(user, role);
@@ -90,25 +90,24 @@ public static class DatabaseSeeder
     }
 
     private const string DefaultAboutContent = """
-        Алгоритм сокращения
+        Shortening algorithm
 
-        Каждой ссылке присваивается число из последовательности SQL Server
-        (ShortUrlCodeSequence), которое затем кодируется в системе счисления по основанию 62
-        алфавитом 0-9, A-Z, a-z. Например, 1000000 превращается в "4c92".
+        Every link is assigned a number from a SQL Server sequence (ShortUrlCodeSequence), which is
+        then encoded in base 62 over the alphabet 0-9, A-Z, a-z. For example, 1000000 becomes "4C92".
 
-        Почему именно так:
-        - последовательность выдаёт значения атомарно, поэтому коды уникальны по построению —
-          не нужен ни цикл повторных попыток, ни проверка занятости кода в базе;
-        - кодирование по основанию 62 — биекция, значит уникальность чисел переносится на коды,
-          а длина растёт логарифмически: 62^4 — это уже более 14 миллионов адресов;
-        - старт последовательности с 1 000 000 даёт коды сразу из четырёх символов и не раскрывает,
-          сколько ссылок в системе.
+        Why this way:
+        - the sequence hands out values atomically, so codes are unique by construction — neither a
+          retry loop nor a check for a taken code is needed;
+        - base 62 encoding is a bijection, so uniqueness of the numbers carries over to the codes,
+          while length grows logarithmically: 62^4 already covers more than 14 million addresses;
+        - starting the sequence at 1,000,000 yields four-character codes right away and does not
+          reveal how many links the system holds.
 
-        Сам адрес перед сохранением нормализуется: схема и хост приводятся к нижнему регистру,
-        отбрасывается порт по умолчанию и завершающий слэш у корня. Уникальность нормализованного
-        адреса обеспечивает уникальный индекс в базе, поэтому повторное сокращение одной и той же
-        ссылки возвращает ошибку даже при одновременных запросах.
+        The address itself is normalized before it is stored: scheme and host are lowercased, the
+        default port and the trailing slash at the root are dropped. Uniqueness of the normalized
+        address is enforced by a unique index in the database, so shortening the same link twice
+        returns an error even under concurrent requests.
 
-        Переход по короткой ссылке выполняется по адресу /s/{код}.
+        A short link is followed at /s/{code}.
         """;
 }

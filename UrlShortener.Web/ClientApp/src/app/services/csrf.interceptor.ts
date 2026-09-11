@@ -5,9 +5,9 @@ import { SessionService } from './session.service';
 const SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS']);
 
 /**
- * Штатный XSRF-механизм Angular здесь не подходит: ASP.NET Core кладёт свой токен
- * в HttpOnly-куку, которую скрипт прочитать не может. Токен приходит из /api/session
- * и уезжает обратно заголовком, который ожидает сервер.
+ * Angular's built-in XSRF mechanism does not fit here: ASP.NET Core puts its token into an
+ * HttpOnly cookie that scripts cannot read. The token arrives from /api/session and travels
+ * back in the header the server expects.
  */
 export const csrfInterceptor: HttpInterceptorFn = (request, next) => {
   if (SAFE_METHODS.has(request.method)) {

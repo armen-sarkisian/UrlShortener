@@ -9,7 +9,7 @@ public sealed class AboutPageConfiguration : IEntityTypeConfiguration<AboutPage>
 {
     public void Configure(EntityTypeBuilder<AboutPage> builder)
     {
-        // Строка ровно одна и её идентификатор фиксирован, поэтому база его не генерирует.
+        // There is exactly one row and its identifier is fixed, so the database does not generate it.
         builder.Property(x => x.Id).ValueGeneratedNever();
 
         builder.Property(x => x.Content).IsRequired();

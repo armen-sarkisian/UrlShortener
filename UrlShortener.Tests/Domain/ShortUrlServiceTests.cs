@@ -58,7 +58,7 @@ public class ShortUrlServiceTests
     [Fact]
     public async Task CreateAsync_ReportsDuplicateWhenDatabaseRejectsConcurrentInsert()
     {
-        // Гонка: проверка прошла, но параллельный запрос успел вставить тот же адрес раньше.
+        // A race: the check passed, but a concurrent request inserted the same address first.
         _repository.SaveChangesAsync(Arg.Any<CancellationToken>())
             .Returns(_ => Task.FromException(new DuplicateUrlException("https://example.com")));
 

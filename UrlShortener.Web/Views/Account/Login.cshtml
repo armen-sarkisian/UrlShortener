@@ -1,9 +1,9 @@
 @model LoginViewModel
 @{
-    ViewData["Title"] = "Вход";
+    ViewData["Title"] = "Sign in";
 }
 
-<h1>Вход</h1>
+<h1>Sign in</h1>
 
 <form method="post" class="card form">
     <div asp-validation-summary="All" class="validation-summary"></div>
@@ -18,13 +18,13 @@
 
     <label class="checkbox">
         <input asp-for="RememberMe"/>
-        <span>Запомнить меня</span>
+        <span>Remember me</span>
     </label>
 
     <input type="hidden" asp-for="ReturnUrl"/>
-    <button type="submit" class="primary">Войти</button>
+    <button type="submit" class="primary">Sign in</button>
 </form>
 
 <p class="hint">
-    Тестовые учётные записи: <code>admin / Admin123$</code> и <code>user / User123$</code>.
+    Demo accounts: <code>admin / Admin123$</code> and <code>user / User123$</code>.
 </p>

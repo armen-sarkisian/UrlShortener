@@ -1,6 +1,6 @@
 namespace UrlShortener.Domain.Abstractions;
 
-/// <summary>Текущее время за интерфейсом — иначе даты создания нечем проверить в тестах.</summary>
+/// <summary>Current time behind an interface — otherwise creation dates are untestable.</summary>
 public interface IClock
 {
     DateTime UtcNow { get; }

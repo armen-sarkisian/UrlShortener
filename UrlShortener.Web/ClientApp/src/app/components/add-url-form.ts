@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-/** Секция "Add new Url". Показывается только авторизованным — этим управляет родитель. */
+/** The "Add new Url" section. Shown to authenticated users only; the parent decides that. */
 @Component({
   selector: 'app-add-url-form',
   imports: [ReactiveFormsModule],
@@ -25,7 +25,7 @@ export class AddUrlForm {
     this.submitted.emit(this.form.getRawValue().url.trim());
   }
 
-  /** Родитель очищает поле только после успешного ответа сервера. */
+  /** The parent clears the field only after the server confirms the change. */
   reset(): void {
     this.form.reset();
   }

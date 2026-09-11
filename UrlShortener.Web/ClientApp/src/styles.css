@@ -1,4 +1,4 @@
-/* Оболочку страницы оформляет site.css хоста; здесь — только то, что нужно приложению. */
+/* The page shell is styled by the host's site.css; only what the app itself needs lives here. */
 app-root {
   display: block;
 }

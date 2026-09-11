@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ClientAppDirectory>$(MSBuildProjectDirectory)\ClientApp</ClientAppDirectory>
-    <!-- Позволяет пропустить сборку фронтенда: dotnet build -p:SkipClientAppBuild=true -->
+    <!-- Allows skipping the frontend build: dotnet build -p:SkipClientAppBuild=true -->
     <SkipClientAppBuild Condition="'$(SkipClientAppBuild)' == ''">false</SkipClientAppBuild>
   </PropertyGroup>
 
@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Исходники и сборка фронтенда не должны попадать в компиляцию и в publish как контент. -->
+    <!-- Frontend sources and build output must not reach compilation or publish as content. -->
     <Content Remove="ClientApp\**" />
     <None Remove="ClientApp\**" />
     <Compile Remove="ClientApp\**" />
@@ -30,7 +30,7 @@
 
   <Target Name="InstallClientAppDependencies"
           Condition="'$(SkipClientAppBuild)' != 'true' And !Exists('$(ClientAppDirectory)\node_modules')">
-    <Message Importance="high" Text="Устанавливаю зависимости ClientApp..." />
+    <Message Importance="high" Text="Installing ClientApp dependencies..." />
     <Exec Command="npm install" WorkingDirectory="$(ClientAppDirectory)" />
   </Target>
 
@@ -39,7 +39,7 @@
           BeforeTargets="BeforeBuild"
           DependsOnTargets="InstallClientAppDependencies"
           Condition="'$(SkipClientAppBuild)' != 'true'">
-    <Message Importance="high" Text="Собираю Angular-приложение в wwwroot/app..." />
+    <Message Importance="high" Text="Building the Angular application into wwwroot/app..." />
     <Exec Command="npm run build" WorkingDirectory="$(ClientAppDirectory)" />
   </Target>
 

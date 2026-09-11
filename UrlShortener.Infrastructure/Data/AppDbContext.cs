@@ -7,12 +7,12 @@ namespace UrlShortener.Infrastructure.Data;
 public class AppDbContext(DbContextOptions<AppDbContext> options)
     : IdentityDbContext<ApplicationUser>(options)
 {
-    /// <summary>Последовательность, из которой берутся числа для Base62-кодов.</summary>
+    /// <summary>Sequence the numbers behind Base62 codes are taken from.</summary>
     public const string CodeSequenceName = "ShortUrlCodeSequence";
 
     /// <summary>
-    /// Старт не с единицы: так первые коды сразу четырёхсимвольные ("4c92"),
-    /// а не "1", "2", "3" — и заодно не выдают, сколько ссылок в системе.
+    /// Not starting at one: this way the first codes are already four symbols long ("4C92")
+    /// instead of "1", "2", "3", and they do not reveal how many links the system holds.
     /// </summary>
     public const long CodeSequenceStart = 1_000_000;
 
@@ -24,8 +24,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     {
         base.OnModelCreating(builder);
 
-        // Последовательности есть не у всех провайдеров: в тестах модель поднимается на SQLite,
-        // который их не поддерживает, а код там выдаёт подставная реализация ICodeSequence.
+        // Not every provider has sequences: tests build the model on SQLite, which has none,
+        // and there the codes come from a stubbed ICodeSequence implementation.
         if (Database.IsSqlServer())
         {
             builder.HasSequence<long>(CodeSequenceName).StartsAt(CodeSequenceStart).IncrementsBy(1);

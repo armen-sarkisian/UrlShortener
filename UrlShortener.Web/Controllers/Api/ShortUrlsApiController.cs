@@ -8,7 +8,7 @@ using UrlShortener.Web.Models;
 
 namespace UrlShortener.Web.Controllers.Api;
 
-/// <summary>API таблицы коротких ссылок: с ним работает Angular-приложение.</summary>
+/// <summary>API of the short links table: the Angular application talks to it.</summary>
 [ApiController]
 [Route("api/shorturls")]
 [AutoValidateAntiforgeryToken]

@@ -12,7 +12,7 @@ import { ShortUrl } from '../models/short-url';
 export class ShortUrlTable {
   readonly urls = input.required<ShortUrl[]>();
 
-  /** Страница деталей закрыта для анонимов, поэтому им не показываем и ссылку на неё. */
+  /** The details page is closed to anonymous users, so they are not shown the link to it either. */
   readonly detailsAvailable = input(false);
 
   readonly deleteRequested = output<ShortUrl>();

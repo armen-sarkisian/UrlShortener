@@ -43,8 +43,8 @@ public sealed class ShortUrlRepository(AppDbContext context) : IShortUrlReposito
         }
         catch (DbUpdateException exception) when (IsUniqueViolation(exception))
         {
-            // Нарушение уникального индекса — это не сбой, а ожидаемый исход: адрес уже есть.
-            // Переводим его в доменное исключение, чтобы сервис не знал про специфику провайдера.
+            // A unique index violation is not a failure but an expected outcome: the address exists.
+            // Translate it into a domain exception so the service stays unaware of provider specifics.
             var duplicate = context.ChangeTracker.Entries<ShortUrl>()
                 .FirstOrDefault(x => x.State == EntityState.Added)?.Entity;
 
@@ -57,8 +57,8 @@ public sealed class ShortUrlRepository(AppDbContext context) : IShortUrlReposito
     private static bool IsUniqueViolation(DbUpdateException exception) => exception.InnerException switch
     {
         SqlException sql => sql.Number is SqlServerDuplicateKey or SqlServerDuplicateIndex,
-        // Провайдеры вне SQL Server (в тестах — SQLite) своего типа исключения здесь не имеют,
-        // поэтому опираемся на текст: другого переносимого признака у EF Core нет.
+        // Providers other than SQL Server (SQLite in tests) have no exception type of their own here,
+        // so we fall back to the message: EF Core exposes no portable indicator.
         { } other => other.Message.Contains("UNIQUE", StringComparison.OrdinalIgnoreCase)
             || other.Message.Contains("duplicate", StringComparison.OrdinalIgnoreCase),
         _ => false,

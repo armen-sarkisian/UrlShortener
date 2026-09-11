@@ -54,13 +54,7 @@ public sealed class ShortUrlRepository(AppDbContext context) : IShortUrlReposito
         }
     }
 
-    private static bool IsUniqueViolation(DbUpdateException exception) => exception.InnerException switch
-    {
-        SqlException sql => sql.Number is SqlServerDuplicateKey or SqlServerDuplicateIndex,
-        // Providers other than SQL Server (SQLite in tests) have no exception type of their own here,
-        // so we fall back to the message: EF Core exposes no portable indicator.
-        { } other => other.Message.Contains("UNIQUE", StringComparison.OrdinalIgnoreCase)
-            || other.Message.Contains("duplicate", StringComparison.OrdinalIgnoreCase),
-        _ => false,
-    };
+    private static bool IsUniqueViolation(DbUpdateException exception) =>
+        exception.InnerException is SqlException sql
+        && sql.Number is SqlServerDuplicateKey or SqlServerDuplicateIndex;
 }

@@ -10,7 +10,6 @@ Test assignment: a link shortening service built with ASP.NET Core MVC, Angular 
 | Table frontend | Angular 22 (standalone components, signals, zoneless) |
 | Data | EF Core 9, SQL Server, Code First with migrations |
 | Authentication | ASP.NET Core Identity, cookies, Admin / User roles |
-| Tests | xUnit, NSubstitute, EF Core in-memory SQLite |
 
 ## Layout
 
@@ -18,9 +17,8 @@ Test assignment: a link shortening service built with ASP.NET Core MVC, Angular 
 UrlShortener.sln
 ├── UrlShortener.Domain/          entities, domain services, interfaces — no infrastructure dependencies
 ├── UrlShortener.Infrastructure/  EF Core: DbContext, configurations, migrations, repository, seeding
-├── UrlShortener.Web/             controllers, Razor views, API
-│   └── ClientApp/                Angular application of the table (built into wwwroot/app)
-└── UrlShortener.Tests/           unit tests
+└── UrlShortener.Web/             controllers, Razor views, API
+    └── ClientApp/                Angular application of the table (built into wwwroot/app)
 ```
 
 ## Running
@@ -43,12 +41,6 @@ The connection string is `ConnectionStrings:Default` in [appsettings.json](UrlSh
 |---|---|---|
 | `admin` | `Admin123$` | Admin |
 | `user` | `User123$` | User |
-
-### Tests
-
-```bash
-dotnet test
-```
 
 ## Features
 
@@ -94,5 +86,6 @@ to the client as `409 Conflict`.
 - **The antiforgery token via `/api/session`.** Angular's built-in XSRF mechanism reads the token
   from a cookie, but ASP.NET Core puts it into an HttpOnly one. The token arrives together with the
   session data and travels back in the `X-CSRF-TOKEN` header.
-- **`IClock` and `ICodeSequence` behind interfaces.** Time and the sequence call are exactly what
-  cannot be asserted directly in tests; behind an interface they are substitutable.
+- **`IClock` and `ICodeSequence` behind interfaces.** Time and the database sequence are the two
+  pieces of environment the domain would otherwise be welded to; behind an interface they stay
+  substitutable.

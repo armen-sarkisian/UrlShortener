@@ -67,6 +67,3 @@ static Task WriteStatusForApi(
     context.Response.Redirect(context.RedirectUri);
     return Task.CompletedTask;
 }
-
-/// <summary>The entry point is declared explicitly so tests can reference the application assembly.</summary>
-public partial class Program;

@@ -24,12 +24,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     {
         base.OnModelCreating(builder);
 
-        // Not every provider has sequences: tests build the model on SQLite, which has none,
-        // and there the codes come from a stubbed ICodeSequence implementation.
-        if (Database.IsSqlServer())
-        {
-            builder.HasSequence<long>(CodeSequenceName).StartsAt(CodeSequenceStart).IncrementsBy(1);
-        }
+        builder.HasSequence<long>(CodeSequenceName).StartsAt(CodeSequenceStart).IncrementsBy(1);
 
         builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
